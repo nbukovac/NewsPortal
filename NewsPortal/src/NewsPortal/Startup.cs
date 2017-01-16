@@ -60,14 +60,14 @@ namespace NewsPortal
             services.AddScoped(s => new NewsPortalDbContext(Configuration.GetConnectionString("DefaultConnection")));
 
 
-            services.AddMvc(options =>
+            services.AddMvc(/*options =>
             {
                 if (_isDevelopment)
                 {
                     options.SslPort = 44397;
                 }
                 options.Filters.Add(new RequireHttpsAttribute());
-            });
+            }*/);
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();

@@ -10,9 +10,9 @@ namespace NewsPortal.Interfaces
     {
         Task<List<Category>> GetAll();
 
-        Task<Category> GetById(Guid categoryId);
+        Category GetById(Guid categoryId);
 
-        Task<List<Article>> GetCategoryArticles(Guid categoryId);
+        List<Article> GetCategoryArticles(Guid categoryId);
 
         Task<List<Category>> GetAllWhere(Expression<Func<Category, bool>> predicate);
 
