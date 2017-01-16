@@ -5,18 +5,23 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NewsPortal.Data;
+using NewsPortal.Interfaces;
 using NewsPortal.Models;
+using NewsPortal.Repositories;
 using NewsPortal.Services;
 
 namespace NewsPortal
 {
     public class Startup
     {
+        private bool _isDevelopment;
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -32,6 +37,7 @@ namespace NewsPortal
 
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
+            _isDevelopment = env.IsDevelopment();
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -47,7 +53,21 @@ namespace NewsPortal
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc();
+            services.AddTransient<ICommentRepository, CommentSqlRepository>();
+            services.AddTransient<ICategoryRepository,CategorySqlRepository>();
+            services.AddTransient<IArticleRepository, ArticleSqlRepository>();
+            services.AddTransient<IArticleVoteRepository, ArticleVoteSqlRepository>();
+            services.AddScoped(s => new NewsPortalDbContext(Configuration.GetConnectionString("DefaultConnection")));
+
+
+            services.AddMvc(options =>
+            {
+                if (_isDevelopment)
+                {
+                    options.SslPort = 44397;
+                }
+                options.Filters.Add(new RequireHttpsAttribute());
+            });
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
