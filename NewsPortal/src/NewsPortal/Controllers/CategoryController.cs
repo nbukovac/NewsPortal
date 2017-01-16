@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NewsPortal.Interfaces;
 using NewsPortal.Models;
+using NewsPortal.Repositories;
 
 namespace NewsPortal.Controllers
 {

@@ -16,5 +16,22 @@ namespace NewsPortal.Models
 
         public virtual Category Category { get; set; }
         public virtual List<Comment> Comments { get; set; }
+
+
+        public Article()
+        {
+            
+        }
+
+        public Article(string title, string text, string summary, Guid userId, Guid categoryId)
+        {
+            Title = title;
+            Text = text;
+            Summary = summary;
+            UserId = userId;
+            CategoryId = categoryId;
+            Votes = 0;
+            Date = DateTime.Now;
+        }
     }
 }

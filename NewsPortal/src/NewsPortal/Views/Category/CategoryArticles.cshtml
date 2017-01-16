@@ -1,1 +1,11 @@
-﻿
+﻿@model List<Article>
+
+<h1>boooooooooooooooooook</h1>
+
+@foreach (var article in Model)
+{
+    <p>
+        @article.Title<br/>
+        @article.Summary
+    </p>
+}
