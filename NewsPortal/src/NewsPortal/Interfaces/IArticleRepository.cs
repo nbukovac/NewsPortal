@@ -15,6 +15,8 @@ namespace NewsPortal.Interfaces
 
         Task<List<Comment>> GetArticleComments(Guid articleId);
 
+        Task<ArticleVote> GetArticleVotes(Guid articleId, Guid userId);
+
         Task<List<Article>> GetAllWhere(Expression<Func<Article, bool>> predicate);
 
         void Insert(Article entity);

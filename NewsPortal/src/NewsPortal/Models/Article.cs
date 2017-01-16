@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NewsPortal.Models
 {
@@ -14,5 +15,6 @@ namespace NewsPortal.Models
         public DateTime Date { get; set; }
 
         public virtual Category Category { get; set; }
+        public virtual List<Comment> Comments { get; set; }
     }
 }
