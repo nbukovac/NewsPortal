@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -10,34 +11,44 @@ namespace NewsPortal.Repositories
 {
     public class CommentSqlRepository : ICommentRepository
     {
-        public Task<List<Comment>> GetAll()
+        private readonly NewsPortalDbContext _dbContext;
+
+        public CommentSqlRepository(NewsPortalDbContext dbContext)
         {
-            throw new NotImplementedException();
+            _dbContext = dbContext;
         }
 
-        public Task<Comment> GetById(Guid commentId)
+        public Task<List<Comment>> GetAll()
         {
-            throw new NotImplementedException();
+            return _dbContext.Comments.OrderBy(m => m.Date).ToListAsync();
+        }
+
+        public Comment GetById(Guid commentId)
+        {
+            return _dbContext.Comments.Find(commentId);
         }
 
         public Task<List<Comment>> GetAllWhere(Expression<Func<Comment, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return _dbContext.Comments.Where(predicate).OrderBy(m => m.Date).ToListAsync();
         }
 
         public void Insert(Comment entity)
         {
-            throw new NotImplementedException();
+            _dbContext.Comments.Add(entity);
+            _dbContext.SaveChanges();
         }
 
         public void Update(Comment entity)
         {
-            throw new NotImplementedException();
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            _dbContext.SaveChanges();
         }
 
         public void Delete(Guid commentId)
         {
-            throw new NotImplementedException();
+            _dbContext.Comments.Remove(GetById(commentId));
+            _dbContext.SaveChanges();
         }
     }
 }

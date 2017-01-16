@@ -35,7 +35,7 @@ namespace NewsPortal.Repositories
 
         public Task<ArticleVote> GetArticleVotes(Guid articleId, Guid userId)
         {
-            throw new NotImplementedException();
+            return _dbContext.ArticleVotes.Where(m => m.ArticleId == articleId && m.UserId == userId).FirstOrDefaultAsync();
         }
 
         public Task<List<Article>> GetAllWhere(Expression<Func<Article, bool>> predicate)

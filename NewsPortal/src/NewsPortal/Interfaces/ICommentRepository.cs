@@ -11,7 +11,7 @@ namespace NewsPortal.Interfaces
     {
         Task<List<Comment>> GetAll();
 
-        Task<Comment> GetById(Guid commentId);
+        Comment GetById(Guid commentId);
 
         Task<List<Comment>> GetAllWhere(Expression<Func<Comment, bool>> predicate);
 
