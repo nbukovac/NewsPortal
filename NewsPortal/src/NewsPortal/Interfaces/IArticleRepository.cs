@@ -11,9 +11,9 @@ namespace NewsPortal.Interfaces
     {
         Task<List<Article>> GetAll();
 
-        Task<Article> GetById(Guid articleId);
+        Article GetById(Guid articleId);
 
-        Task<List<Comment>> GetArticleComments(Guid articleId);
+        List<Comment> GetArticleComments(Guid articleId);
 
         Task<ArticleVote> GetArticleVotes(Guid articleId, Guid userId);
 

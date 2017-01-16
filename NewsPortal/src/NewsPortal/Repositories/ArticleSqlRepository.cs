@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -10,19 +11,26 @@ namespace NewsPortal.Repositories
 {
     public class ArticleSqlRepository : IArticleRepository
     {
+        private readonly NewsPortalDbContext _dbContext;
+
+        public ArticleSqlRepository(NewsPortalDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
         public Task<List<Article>> GetAll()
         {
-            throw new NotImplementedException();
+            return _dbContext.Articles.OrderByDescending(m => m.Date).ToListAsync();
         }
 
-        public Task<Article> GetById(Guid articleId)
+        public Article GetById(Guid articleId)
         {
-            throw new NotImplementedException();
+            return _dbContext.Articles.Find(articleId);
         }
 
-        public Task<List<Comment>> GetArticleComments(Guid articleId)
+        public List<Comment> GetArticleComments(Guid articleId)
         {
-            throw new NotImplementedException();
+            return GetById(articleId).Comments.OrderByDescending(m => m.Date).ToList();
         }
 
         public Task<ArticleVote> GetArticleVotes(Guid articleId, Guid userId)
@@ -32,22 +40,25 @@ namespace NewsPortal.Repositories
 
         public Task<List<Article>> GetAllWhere(Expression<Func<Article, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return _dbContext.Articles.Where(predicate).OrderByDescending(m => m.Date).ToListAsync();
         }
 
         public void Insert(Article entity)
         {
-            throw new NotImplementedException();
+            _dbContext.Articles.Add(entity);
+            _dbContext.SaveChanges();
         }
 
         public void Update(Article entity)
         {
-            throw new NotImplementedException();
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            _dbContext.SaveChanges();
         }
 
         public void Delete(Guid articleId)
         {
-            throw new NotImplementedException();
+            _dbContext.Articles.Remove(GetById(articleId));
+            _dbContext.SaveChanges();
         }
     }
 }

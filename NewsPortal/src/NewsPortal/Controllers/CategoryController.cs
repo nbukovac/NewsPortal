@@ -21,5 +21,10 @@ namespace NewsPortal.Controllers
         {
             return View(await _categoryRepository.GetAll());
         }
+
+        public IActionResult CategoryArticles(Guid categoryId)
+        {
+            return View(_categoryRepository.GetCategoryArticles(categoryId));
+        }
     }
 }
