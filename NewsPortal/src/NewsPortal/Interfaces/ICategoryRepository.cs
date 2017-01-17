@@ -14,7 +14,11 @@ namespace NewsPortal.Interfaces
 
         List<Article> GetCategoryArticles(Guid categoryId);
 
+        Task<List<Article>> GetTrendingArticles(Guid categoryId, int n);
+
         Task<List<Category>> GetAllWhere(Expression<Func<Category, bool>> predicate);
+
+        Task<List<Article>> GetNewestArticles(Guid categoryId, int n);
 
         void Insert(Category entity);
 

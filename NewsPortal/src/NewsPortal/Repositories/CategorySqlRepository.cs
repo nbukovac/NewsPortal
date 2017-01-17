@@ -34,9 +34,28 @@ namespace NewsPortal.Repositories
             return GetById(categoryId).Articles.OrderBy(m => m.Date).ToList();
         }
 
+        public Task<List<Article>> GetTrendingArticles(Guid categoryId, int n)
+        {
+            return
+                _dbContext.Articles.Where(m => m.CategoryId == categoryId)
+                    .OrderByDescending(m => m.Date)
+                    .Take(n)
+                    .OrderByDescending(m => m.GetTrendingScore())
+                    .ToListAsync();
+        }
+
         public Task<List<Category>> GetAllWhere(Expression<Func<Category, bool>> predicate)
         {
             return _dbContext.Categories.Where(predicate).ToListAsync();
+        }
+
+        public Task<List<Article>> GetNewestArticles(Guid categoryId, int n)
+        {
+            return
+                _dbContext.Articles.Where(m => m.CategoryId == categoryId)
+                    .OrderByDescending(m => m.Date)
+                    .Take(n)
+                    .ToListAsync();
         }
 
         public void Insert(Category entity)

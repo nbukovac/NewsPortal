@@ -29,6 +29,7 @@ namespace NewsPortal.Models
 
             modelBuilder.Entity<Article>().HasRequired(t => t.Category);
             modelBuilder.Entity<Article>().HasMany(t => t.Comments);
+            modelBuilder.Entity<Article>().HasMany(t => t.VotingList);
 
             //Comments
             modelBuilder.Entity<Comment>().HasKey(t => t.CommentId);

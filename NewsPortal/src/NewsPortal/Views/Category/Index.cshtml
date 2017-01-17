@@ -11,6 +11,8 @@
 {
     <p>
         @item.Name
-        <a asp-action="CategoryArticles" asp-route-categoryId="@item.CategoryId">link na kategoriju</a>
+        <a asp-action="Edit" asp-route-categoryId="@item.CategoryId">link na kategoriju</a>
+        <a asp-action="Delete" onclick="return confirm('Are you sure you want to delete this category?')"
+            asp-route-id="@item.CategoryId">Delete</a>
     </p>
 }
