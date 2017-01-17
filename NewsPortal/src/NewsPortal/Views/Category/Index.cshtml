@@ -7,12 +7,22 @@
 
 <h2>@ViewBag.Title</h2>
 
+<hr/>
+
 @foreach (var item in Model)
 {
-    <p>
-        @item.Name
-        <a asp-action="Edit" asp-route-categoryId="@item.CategoryId">link na kategoriju</a>
-        <a asp-action="Delete" onclick="return confirm('Are you sure you want to delete this category?')"
-            asp-route-id="@item.CategoryId">Delete</a>
-    </p>
+    <div class="col-md-offset-2 col-md-10">
+        <h3>@item.Name</h3>
+        <div class="pull-right">
+            <a asp-action="Edit" asp-route-categoryId="@item.CategoryId" class="btn btn-sm btn-info">
+                Edit
+                <span class="glyphicon glyphicon-pencil"></span>
+            </a>
+            <a asp-action="Delete" onclick="return confirm('Are you sure you want to delete this category?')"
+               asp-route-id="@item.CategoryId" class="btn btn-sm btn-danger">
+                Delete
+                <span class="glyphicon glyphicon-trash"></span>
+            </a>
+        </div>
+    </div>
 }

@@ -10,7 +10,7 @@ namespace NewsPortal.Models
         public Guid CategoryId { get; set; }
         [Required]
         [StringLength(maximumLength: 20)]
-        [RegularExpression("[\\w]+")]
+        [RegularExpression("[\\w]+", ErrorMessage = "Only letters can be used for category name")]
         public string Name { get; set; }
         [Required]
         public string Description { get; set; }
