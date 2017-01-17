@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using NewsPortal.Models;
+using NewsPortal.Models.ViewModels;
 
 namespace NewsPortal.Interfaces
 {
@@ -20,6 +20,8 @@ namespace NewsPortal.Interfaces
         Task<List<Article>> GetAllWhere(Expression<Func<Article, bool>> predicate);
 
         void Insert(Article entity);
+
+        void Insert(AddArticleViewModel entity);
 
         void Update(Article entity);
 

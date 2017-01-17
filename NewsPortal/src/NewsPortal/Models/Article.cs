@@ -35,6 +35,7 @@ namespace NewsPortal.Models
 
         public Article(string title, string text, string summary, Guid userId, Guid categoryId)
         {
+            ArticleId = Guid.NewGuid();
             Title = title;
             Text = text;
             Summary = summary;

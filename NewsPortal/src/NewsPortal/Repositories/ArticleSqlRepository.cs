@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using NewsPortal.Interfaces;
 using NewsPortal.Models;
+using NewsPortal.Models.ViewModels;
 
 namespace NewsPortal.Repositories
 {
@@ -35,7 +36,9 @@ namespace NewsPortal.Repositories
 
         public Task<ArticleVote> GetArticleVotes(Guid articleId, Guid userId)
         {
-            return _dbContext.ArticleVotes.Where(m => m.ArticleId == articleId && m.UserId == userId).FirstOrDefaultAsync();
+            return
+                _dbContext.ArticleVotes.Where(m => (m.ArticleId == articleId) && (m.UserId == userId))
+                    .FirstOrDefaultAsync();
         }
 
         public Task<List<Article>> GetAllWhere(Expression<Func<Article, bool>> predicate)
@@ -47,6 +50,13 @@ namespace NewsPortal.Repositories
         {
             _dbContext.Articles.Add(entity);
             _dbContext.SaveChanges();
+        }
+
+        public void Insert(AddArticleViewModel entity)
+        {
+            Insert(
+                new Article(entity.Title, entity.Text, entity.Summary, entity.UserId, entity.CategoryId)
+            );
         }
 
         public void Update(Article entity)
