@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using NewsPortal.Interfaces;
 using NewsPortal.Models;
+using NewsPortal.Models.ViewModels;
 
 namespace NewsPortal.Repositories
 {
@@ -61,6 +62,12 @@ namespace NewsPortal.Repositories
         public void Insert(Category entity)
         {
             _dbContext.Categories.Add(entity);
+            _dbContext.SaveChanges();
+        }
+
+        public void Insert(AddCategoryViewModel entity)
+        {
+            _dbContext.Categories.Add(new Category(entity.Name, entity.Description));
             _dbContext.SaveChanges();
         }
 

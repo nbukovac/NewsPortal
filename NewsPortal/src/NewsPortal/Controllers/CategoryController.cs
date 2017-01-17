@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NewsPortal.Interfaces;
 using NewsPortal.Models;
+using NewsPortal.Models.ViewModels;
 using NewsPortal.Repositories;
 
 namespace NewsPortal.Controllers
@@ -29,15 +30,15 @@ namespace NewsPortal.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Category category)
+        public IActionResult Create(AddCategoryViewModel addCategoryViewModel)
         {
             if (ModelState.IsValid)
             {
-                _categoryRepository.Insert(category);
+                _categoryRepository.Insert(addCategoryViewModel);
                 return RedirectToAction("Index");
             }
 
-            return View(category);
+            return View(addCategoryViewModel);
         }
 
         public IActionResult Edit(Guid id)

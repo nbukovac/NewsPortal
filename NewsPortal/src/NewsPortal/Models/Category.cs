@@ -19,6 +19,7 @@ namespace NewsPortal.Models
 
         public Category(string name, string description)
         {
+            CategoryId = Guid.NewGuid();
             Name = name;
             Description = description;
         }

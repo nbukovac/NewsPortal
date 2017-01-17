@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using NewsPortal.Models;
+using NewsPortal.Models.ViewModels;
 
 namespace NewsPortal.Interfaces
 {
@@ -21,6 +22,8 @@ namespace NewsPortal.Interfaces
         Task<List<Article>> GetNewestArticles(Guid categoryId, int n);
 
         void Insert(Category entity);
+
+        void Insert(AddCategoryViewModel entity);
 
         void Update(Category entity);
 
