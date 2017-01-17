@@ -34,7 +34,7 @@ namespace NewsPortal.Controllers
         public async Task<IActionResult> WriteArticle()
         {
             ViewBag.AutorId = await GetActiveUserId();
-            ViewBag.Categories = new SelectList(await _categoryRepository.GetAll(), "CategoryId", "Name");
+            ViewBag.CategoryId = new SelectList(await _categoryRepository.GetAll(), "CategoryId", "Name");
 
             return View();
         }
@@ -44,12 +44,15 @@ namespace NewsPortal.Controllers
         {
             if (ModelState.IsValid)
             {
-                _articleRepository.Insert(addArticleViewModel);
-                return RedirectToAction("ReadArticle");
+                var article = new Article(addArticleViewModel.Title, addArticleViewModel.Text, addArticleViewModel.Summary,
+                    addArticleViewModel.UserId, addArticleViewModel.CategoryId);
+                _articleRepository.Insert(article);
+
+                return RedirectToAction("ReadArticle", new { articleId = article.ArticleId});
             }
 
             ViewBag.AutorId = await GetActiveUserId();
-            ViewBag.Categories = new SelectList(await _categoryRepository.GetAll(), "CategoryId", "Name",
+            ViewBag.CategoryId = new SelectList(await _categoryRepository.GetAll(), "CategoryId", "Name",
                 addArticleViewModel.CategoryId);
 
             return View(addArticleViewModel);
@@ -58,7 +61,7 @@ namespace NewsPortal.Controllers
         public async Task<IActionResult> EditArticle(Guid articleId)
         {
             var article = _articleRepository.GetById(articleId);
-            ViewBag.Categories = new SelectList(await _categoryRepository.GetAll(), "CategoryId", "Name",
+            ViewBag.CategoryId = new SelectList(await _categoryRepository.GetAll(), "CategoryId", "Name",
                 article.CategoryId);
 
             return View(article);
@@ -70,10 +73,10 @@ namespace NewsPortal.Controllers
             if (ModelState.IsValid)
             {
                 _articleRepository.Update(article);
-                return RedirectToAction("ReadArticle");
+                return RedirectToAction("ReadArticle", new { articleId = article.ArticleId });
             }
 
-            ViewBag.Categories = new SelectList(await _categoryRepository.GetAll(), "CategoryId", "Name",
+            ViewBag.CategoryId = new SelectList(await _categoryRepository.GetAll(), "CategoryId", "Name",
                 article.CategoryId);
 
             return View(article);

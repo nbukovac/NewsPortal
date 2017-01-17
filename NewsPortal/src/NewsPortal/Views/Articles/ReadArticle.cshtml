@@ -3,6 +3,56 @@
 @{
     ViewBag.Title = Model.Title;
     Layout = "_Layout";
+
+    var autor = ViewBag.Autor as ApplicationUser;
 }
 
-<h2>@ViewBag.Title</h2>
+@if (User.Identity.Name == autor?.UserName || User.IsInRole("Admin"))
+{
+    <br/>
+    <div class="pull-right">
+        <a asp-action="EditArticle" asp-route-articleId="@Model.ArticleId" class="btn btn-sm btn-info">
+            Edit
+            <span class="glyphicon glyphicon-pencil"></span>
+        </a>
+        <a asp-action="DeleteArticle" onclick="return confirm('Are you sure you want to delete this article?')"
+           asp-route-articleId="@Model.ArticleId" class="btn btn-sm btn-danger">
+            Delete
+            <span class="glyphicon glyphicon-trash"></span>
+        </a>
+    </div>
+    <br />
+    <hr />
+}
+
+
+<div class="row">
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <p>
+                <h2>@ViewBag.Title</h2>
+            </p>
+            <p class="col-md-offset-2">
+                written by @autor?.UserName on @Model.Date.ToShortDateString()
+            </p>
+        </div>
+
+        <div class="panel-body">
+            <p class="lead">
+                @Model.Summary
+            </p>
+            
+            <p>
+                @Model.Text
+            </p>
+        </div>
+        
+    </div>
+</div>
+
+<div class="row col-md-offset-1 col-md-9">
+    @foreach (var comment in Model.Comments)
+    {
+        
+    }
+</div>
