@@ -41,7 +41,7 @@ namespace NewsPortal.Repositories
                 _dbContext.Articles.Where(m => m.CategoryId == categoryId)
                     .OrderByDescending(m => m.Date)
                     .Take(n)
-                    .OrderByDescending(m => m.GetTrendingScore())
+                    .OrderByDescending(m => m.Votes + m.Comments.Count*2)
                     .ToListAsync();
         }
 

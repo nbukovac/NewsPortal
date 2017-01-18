@@ -1,0 +1,13 @@
+﻿@model Article
+
+<div class="panel panel-default col-md-6">
+    <div class="panel-heading">
+        <a asp-controller="Articles" asp-action="ReadArticle" class="btn btn-link">
+            <h3>@Model.Title</h3>
+        </a>
+    </div>
+    <div class="panel-body">
+        @Model.Summary
+    </div>
+    <div class="panel-footer">Comments: @Model.Comments.Count | Votes: @Model.Votes</div>
+</div>

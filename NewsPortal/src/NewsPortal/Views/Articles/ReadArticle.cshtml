@@ -8,7 +8,7 @@
     var userVote = ViewBag.UserVote as ArticleVote;
 }
 
-@if (User.Identity.Name == autor?.UserName || User.IsInRole("Admin"))
+@if (User.Identity.Name == autor?.UserName || User.IsInRole(Constants.AdministratorRole))
 {
     <br/>
     <div class="pull-right">

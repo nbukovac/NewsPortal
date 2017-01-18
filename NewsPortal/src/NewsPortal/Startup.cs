@@ -15,6 +15,7 @@ using NewsPortal.Interfaces;
 using NewsPortal.Models;
 using NewsPortal.Repositories;
 using NewsPortal.Services;
+using Sakura.AspNetCore.Mvc;
 
 namespace NewsPortal
 {
@@ -59,6 +60,11 @@ namespace NewsPortal
             services.AddTransient<IArticleVoteRepository, ArticleVoteSqlRepository>();
             services.AddScoped(s => new NewsPortalDbContext(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddBootstrapPagerGenerator(options =>
+            {
+                // Use default pager options.
+                options.ConfigureDefault();
+            });
 
             services.AddMvc(/*options =>
             {

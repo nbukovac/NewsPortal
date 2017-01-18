@@ -7,6 +7,7 @@ using NewsPortal.Interfaces;
 using NewsPortal.Models;
 using NewsPortal.Models.ViewModels;
 using NewsPortal.Repositories;
+using Sakura.AspNetCore;
 
 namespace NewsPortal.Controllers
 {
@@ -64,9 +65,25 @@ namespace NewsPortal.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult CategoryArticles(Guid categoryId)
+        public async Task<IActionResult> CategoryArticles(Guid categoryId, bool trending = true, int page = 1)
         {
-            return View(_categoryRepository.GetCategoryArticles(categoryId));
+            List<Article> articles;
+            var category = _categoryRepository.GetById(categoryId);
+
+            if (trending)
+            {
+                articles = await _categoryRepository.GetTrendingArticles(categoryId, category.Articles.Count);
+            }
+            else
+            {
+                articles = await _categoryRepository.GetNewestArticles(categoryId, category.Articles.Count);
+            }
+
+            ViewBag.Trending = trending;
+            ViewBag.CategoryId = categoryId;
+            ViewBag.CategoryName = _categoryRepository.GetById(categoryId).Name;
+
+            return View(articles.ToPagedList(Constants.PageSize, page));
         }
     }
 }

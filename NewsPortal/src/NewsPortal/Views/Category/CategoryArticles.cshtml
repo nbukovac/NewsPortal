@@ -1,12 +1,23 @@
-﻿@model List<Article>
+﻿@using System.Threading.Tasks
+@using Sakura.AspNetCore.Mvc
+@model Sakura.AspNetCore.IPagedList<Article>
 
-<h1>boooooooooooooooooook</h1>
+@{
+    ViewBag.Title = ViewBag.CategoryName;
+}
+
+<h1>@ViewBag.Title</h1>
 
 @foreach (var article in Model)
 {
-    <p>
-        @article.Title<br/>
-        @article.Summary
-        <a asp-action="ReadArticle" asp-controller="Articles" asp-route-articleId="@article.ArticleId">Read article</a>
-    </p>
+    @Html.Partial("ArticleSnapshot", article)
+
 }
+
+<p class="row">
+    <pager setting-link-attr-data-ajax="true" 
+           item-default-link='PagerItemLinkGenerators.Custom((int page) => 
+            Url.Action("CategoryArticles", "Category", 
+            new {page = page, categoryId = ViewBag.CategoryId, trending = ViewBag.Trending}))'
+            source="Model"/>
+</p>
