@@ -1,0 +1,10 @@
+﻿@model Comment
+
+<div class="alert alert-info">
+    <p>
+        Posted by @Model.UserName on @Model.Date.ToShortDateString()
+    </p>
+    <p class="lead">
+        @Model.Text
+    </p>
+</div>

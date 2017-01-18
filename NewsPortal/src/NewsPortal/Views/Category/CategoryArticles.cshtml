@@ -7,5 +7,6 @@
     <p>
         @article.Title<br/>
         @article.Summary
+        <a asp-action="ReadArticle" asp-controller="Articles" asp-route-articleId="@article.ArticleId">Read article</a>
     </p>
 }

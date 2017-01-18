@@ -37,6 +37,7 @@ namespace NewsPortal.Models
             modelBuilder.Entity<Comment>().Property(t => t.Date).IsRequired();
             modelBuilder.Entity<Comment>().Property(t => t.Text).IsRequired();
             modelBuilder.Entity<Comment>().Property(t => t.UserId).IsRequired();
+            modelBuilder.Entity<Comment>().Property(t => t.UserName).IsRequired();
 
             modelBuilder.Entity<Comment>().HasRequired(t => t.Article);
 

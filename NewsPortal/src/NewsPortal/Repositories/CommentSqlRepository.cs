@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using NewsPortal.Interfaces;
 using NewsPortal.Models;
+using NewsPortal.Models.ViewModels;
 
 namespace NewsPortal.Repositories
 {

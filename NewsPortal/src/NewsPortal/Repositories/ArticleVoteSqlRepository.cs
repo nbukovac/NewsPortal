@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 using NewsPortal.Interfaces;
 using NewsPortal.Models;
 
@@ -15,6 +13,11 @@ namespace NewsPortal.Repositories
         public ArticleVoteSqlRepository(NewsPortalDbContext dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        public ArticleVote GetUsersVote(Guid articleId, Guid userId)
+        {
+            return _dbContext.ArticleVotes.FirstOrDefault(m => (m.ArticleId == articleId) && (m.UserId == userId));
         }
 
         public void Insert(ArticleVote entity)

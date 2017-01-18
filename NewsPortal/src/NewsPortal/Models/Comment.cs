@@ -1,17 +1,21 @@
 ﻿using System;
+using System.ServiceModel.Security;
 
 namespace NewsPortal.Models
 {
     public class Comment
     {
-        public Comment(Guid userId, Guid articleId, string text)
+        public Comment(Guid userId, Guid articleId, string text, string userName)
         {
             CommentId = Guid.NewGuid();
             UserId = userId;
             Date = DateTime.Now;
             Text = text;
             ArticleId = articleId;
+            UserName = userName;
         }
+
+        public string UserName { get; set; }
 
         public Comment()
         {

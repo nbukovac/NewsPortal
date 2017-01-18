@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using NewsPortal.Models;
+using NewsPortal.Models.ViewModels;
 
 namespace NewsPortal.Interfaces
 {
