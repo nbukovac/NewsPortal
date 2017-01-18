@@ -8,13 +8,23 @@ namespace NewsPortal.Models
         {
         }
 
-        public ArticleVote(Guid userId, Guid articleId, bool down, bool up)
+        public ArticleVote(Guid userId, Guid articleId)
         {
             ArticleVoteId = Guid.NewGuid();
             UserId = userId;
             ArticleId = articleId;
-            DownVote = down;
-            UpVote = up;
+        }
+
+        public void Upvoted()
+        {
+            UpVote = true;
+            DownVote = false;
+        }
+
+        public void Downvoted()
+        {
+            DownVote = true;
+            UpVote = false;
         }
 
         public Guid ArticleVoteId { get; set; }

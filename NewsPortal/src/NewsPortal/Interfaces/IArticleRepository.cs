@@ -19,6 +19,10 @@ namespace NewsPortal.Interfaces
 
         Task<List<Article>> GetAllWhere(Expression<Func<Article, bool>> predicate);
 
+        void Upvote(Guid articleId, bool increment);
+
+        void Downvote(Guid articleId, bool decrement);
+
         void Insert(Article entity);
 
         void Insert(AddArticleViewModel entity);

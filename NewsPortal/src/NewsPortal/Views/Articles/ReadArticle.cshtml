@@ -53,6 +53,10 @@
 
 <div class="row">
     <div class="pull-right col-md-2 alert alert-success">
+        <h3 class="col-md-1 text-center">@Model.Votes</h3>
+        &nbsp;
+        &nbsp;
+
         @if (userVote != null && userVote.UpVote)
         {
             <img src="~/images/thumbs-up.png" alt="thumb up" height="50" />
@@ -60,7 +64,7 @@
         else
         {
             <a asp-action="UpvoteArticle" asp-route-articleId="@Model.ArticleId">
-                <img src="~/images/thumbs-up.png" alt="thumb up" height="50" />
+                <img src="~/images/thumbs-up-greyed.png" alt="thumb up" height="50" />
             </a>
         }
         
@@ -74,8 +78,7 @@
                 <img src="~/images/thumbs-down-greyed.png" alt="thumb down" height="50" />
             </a>
         }
-        
-        @Model.Votes
+
     </div>
 </div>
 
@@ -89,21 +92,21 @@
     }
 </div>
 
-<form asp-action="WriteComment" method="post">
-    <div class="form-horizontal">
+<div class="row col-md-offset-4">
+    <form asp-action="WriteComment" method="post">
+        <div class="form-horizontal col-md-4">
 
-        <div class="form-group">
-            <div class="col-md-10">
-                <input asp-for="Text" class="form-control" value="" id="text"/>
+            <input class="hidden" asp-for="UserId" value="@autor?.Id" id="user" />
+            <input class="hidden" asp-for="ArticleId" value="@Model.ArticleId" id="article" />
+
+            <div class="form-group row">
+                <div class="input-group">
+                    <input asp-for="Text" class="form-control" value="" id="text" />
+                    <span class="input-group-btn">
+                        <input type="submit" class="btn btn-primary" value="Comment" />
+                    </span>
+                </div>
             </div>
         </div>
-
-        <input class="hidden" asp-for="UserId" value="@autor?.Id" id="#user"/>
-        <input class="hidden" asp-for="ArticleId" value="@Model.ArticleId" id="article"/>
-    </div>
-
-    <div class="col-md-offset-2">
-        <input type="submit" class="btn btn-primary" value="Comment"/>
-    </div>
-
-</form>
+    </form>
+</div>

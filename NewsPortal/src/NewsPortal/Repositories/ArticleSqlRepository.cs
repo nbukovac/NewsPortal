@@ -46,6 +46,32 @@ namespace NewsPortal.Repositories
             return _dbContext.Articles.Where(predicate).OrderByDescending(m => m.Date).ToListAsync();
         }
 
+        public void Upvote(Guid articleId, bool increment)
+        {
+            var article = GetById(articleId);
+            article.Upvote();
+
+            if (increment)
+            {
+                article.Upvote();
+            }
+
+            Update(article);
+        }
+
+        public void Downvote(Guid articleId, bool decrement)
+        {
+            var article = GetById(articleId);
+            article.DownVote();
+
+            if (decrement)
+            {
+                article.DownVote();
+            }
+
+            Update(article);
+        }
+
         public void Insert(Article entity)
         {
             _dbContext.Articles.Add(entity);

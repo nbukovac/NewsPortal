@@ -39,13 +39,49 @@ namespace NewsPortal.Controllers
             return View(article);
         }
 
-        public IActionResult UpvoteArticle(Guid articleId)
+        public async Task<IActionResult> UpvoteArticle(Guid articleId)
         {
+            var userId = await GetActiveUserId();
+            var userVote = _articleVoteRepository.GetUsersVote(articleId, userId);
+            bool increment = userVote != null;
+
+            if (userVote == null)
+            {
+                userVote = new ArticleVote(userId, articleId);
+                userVote.Upvoted();
+                _articleVoteRepository.Insert(userVote);
+            }
+            else
+            {
+                userVote.Upvoted();
+                _articleVoteRepository.Update(userVote);
+            }
+
+            _articleRepository.Upvote(articleId, increment);
+
             return RedirectToAction("ReadArticle", new { articleId = articleId });
         }
 
-        public IActionResult DownvoteArticle(Guid articleId)
+        public async Task<IActionResult> DownvoteArticle(Guid articleId)
         {
+            var userId = await GetActiveUserId();
+            var userVote = _articleVoteRepository.GetUsersVote(articleId, userId);
+            bool decrement = userVote != null;
+
+            if (userVote == null)
+            {
+                userVote = new ArticleVote(userId, articleId);
+                userVote.Downvoted();
+                _articleVoteRepository.Insert(userVote);
+            }
+            else
+            {
+                userVote.Downvoted();
+                _articleVoteRepository.Update(userVote);
+            }
+
+            _articleRepository.Downvote(articleId, decrement);
+
             return RedirectToAction("ReadArticle", new { articleId = articleId });
         }
 
