@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NewsPortal.Interfaces;
 using NewsPortal.Models;
 using NewsPortal.Models.ViewModels;
-using NewsPortal.Repositories;
 using Sakura.AspNetCore;
 
 namespace NewsPortal.Controllers
@@ -20,11 +18,6 @@ namespace NewsPortal.Controllers
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<IActionResult> Index()
-        {
-            return View(await _categoryRepository.GetAll());
-        }
-
         public IActionResult Create()
         {
             return View();
@@ -36,7 +29,7 @@ namespace NewsPortal.Controllers
             if (ModelState.IsValid)
             {
                 _categoryRepository.Insert(addCategoryViewModel);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
 
             return View(addCategoryViewModel);
@@ -53,7 +46,7 @@ namespace NewsPortal.Controllers
             if (ModelState.IsValid)
             {
                 _categoryRepository.Update(category);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
 
             return View(category);
@@ -62,7 +55,7 @@ namespace NewsPortal.Controllers
         public IActionResult Delete(Guid id)
         {
             _categoryRepository.Delete(id);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
         }
 
         public async Task<IActionResult> CategoryArticles(Guid categoryId, bool trending = true, int page = 1)
