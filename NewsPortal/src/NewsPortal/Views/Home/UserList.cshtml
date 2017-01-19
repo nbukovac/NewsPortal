@@ -1,0 +1,41 @@
+﻿@model IEnumerable<NewsPortal.Models.ViewModels.UserRoleViewModel>
+
+@{
+    ViewBag.Title = "Promote user to Autor";
+    Layout = "_Layout";
+}
+
+<h2>Promote user to Autor</h2>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Username</th>
+        <th>Role</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@user.Username</td>
+            <td>@user.Role</td>
+            @if (user.Role == string.Empty)
+            {
+                <td>
+                    <a asp-controller="Home" asp-action="PromoteUser" asp-route-userId="@user.UserId" 
+                       class="btn btn-sm btn-primary">
+                        Promote
+                        <span class="glyphicon glyphicon-chevron-up"></span>
+                    </a>
+                </td>
+            }
+            else
+            {
+                <td></td>
+            }
+        </tr>
+    }
+    </tbody>
+</table>

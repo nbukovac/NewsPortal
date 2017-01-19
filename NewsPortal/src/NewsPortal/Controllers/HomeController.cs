@@ -1,10 +1,16 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NewsPortal.Data;
 using NewsPortal.Interfaces;
 using NewsPortal.Models;
+using NewsPortal.Models.ViewModels;
 
 namespace NewsPortal.Controllers
 {
@@ -12,7 +18,6 @@ namespace NewsPortal.Controllers
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
 
         public HomeController(ICategoryRepository categoryRepository, UserManager<ApplicationUser> userManager)
         {
@@ -26,9 +31,33 @@ namespace NewsPortal.Controllers
             return View(await _categoryRepository.GetAll());
         }
 
-        public IActionResult PromoteUser()
+        public async Task<IActionResult> UserList()
         {
-            return View();
+            var users = _userManager.Users.ToList();
+            var viewModel = new List<UserRoleViewModel>();
+
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+
+                viewModel.Add(new UserRoleViewModel()
+                {
+                    UserId = Guid.Parse(user.Id),
+                    Username = user.UserName,
+                    Role = roles.FirstOrDefault() == null ? "" : roles.First().ToString()
+                });
+            }
+
+            return View(viewModel);
+        }
+
+
+        public async Task<IActionResult> PromoteUser(Guid userId)
+        {
+            var user = _userManager.Users.First(m => m.Id == userId.ToString());
+            await _userManager.AddToRoleAsync(user, Constants.AutorRole);
+
+            return RedirectToAction("Index");
         }
 
         public IActionResult About()
@@ -59,6 +88,7 @@ namespace NewsPortal.Controllers
             };
 
             await _userManager.CreateAsync(user, "#1Webapp");
+            await _userManager.AddToRoleAsync(user, Constants.AdministratorRole);
         }
     }
 }
