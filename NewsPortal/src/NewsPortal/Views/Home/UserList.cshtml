@@ -8,6 +8,7 @@
 <h2>Promote user to Autor</h2>
 
 <table class="table table-striped">
+    
     <thead>
     <tr>
         <th>Username</th>
@@ -15,7 +16,9 @@
         <th></th>
     </tr>
     </thead>
+
     <tbody>
+    
     @foreach (var user in Model)
     {
         <tr>
@@ -24,7 +27,7 @@
             @if (user.Role == string.Empty)
             {
                 <td>
-                    <a asp-controller="Home" asp-action="PromoteUser" asp-route-userId="@user.UserId" 
+                    <a asp-controller="Home" asp-action="PromoteUser" asp-route-userId="@user.UserId"
                        class="btn btn-sm btn-primary">
                         Promote
                         <span class="glyphicon glyphicon-chevron-up"></span>
@@ -37,5 +40,6 @@
             }
         </tr>
     }
+
     </tbody>
 </table>

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace NewsPortal.Models
+﻿namespace NewsPortal.Models
 {
     public class Constants
     {
@@ -12,7 +7,6 @@ namespace NewsPortal.Models
 
         public const int ArticlesNumber = 5;
 
-        public const int PageSize = 1;
-
+        public const int PageSize = 20;
     }
 }

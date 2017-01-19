@@ -28,7 +28,21 @@ namespace NewsPortal.Controllers
         public async Task<IActionResult> Index()
         {
             await Seed();
-            return View(await _categoryRepository.GetAll());
+
+            var categories = await _categoryRepository.GetAll();
+            var viewModel = new List<FrontPageArticlesViewModel>();
+
+            foreach (var category in categories)
+            {
+                viewModel.Add(new FrontPageArticlesViewModel()
+                {
+                    Category = category,
+                    Trending = await _categoryRepository.GetTrendingArticles(category.CategoryId, Constants.ArticlesNumber),
+                    Newest = await _categoryRepository.GetNewestArticles(category.CategoryId, Constants.ArticlesNumber)
+                });
+            }
+
+            return View(viewModel);
         }
 
         public async Task<IActionResult> UserList()
