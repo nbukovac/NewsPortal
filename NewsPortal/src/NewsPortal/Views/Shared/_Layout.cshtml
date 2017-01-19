@@ -32,6 +32,14 @@
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                    @if (User.IsInRole(Constants.AdministratorRole))
+                    {
+                        <li><a asp-controller="Home" asp-action="PromoteUser">Promote autor</a></li>
+                    }
+                    @if (User.IsInRole(Constants.AutorRole) || User.IsInRole(Constants.AdministratorRole))
+                    {
+                        <li><a asp-controller="Articles" asp-action="WriteArticle">Write article</a></li>
+                    }
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>

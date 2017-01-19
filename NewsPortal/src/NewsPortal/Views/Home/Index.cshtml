@@ -6,7 +6,7 @@
 @if (User.IsInRole(Constants.AdministratorRole))
 {
     <div class="pull-right">
-        <a asp-action="Create" class="btn btn-sm btn-primary">
+        <a asp-action="Create" asp-controller="Category" class="btn btn-sm btn-primary">
             Create a new category
             <span class="glyphicon glyphicon-plus"></span>
         </a>
@@ -20,7 +20,7 @@
 <div class="row">
     @foreach (var item in Model)
     {
-        <div class="col-md-offset-1 col-md-11 panel panel-success">
+        <div class="col-md-offset-1 col-md-11 panel panel-primary">
             <div class="panel-heading">
                 @if (User.IsInRole(Constants.AdministratorRole))
                 {
@@ -37,9 +37,9 @@
                     </div>
                 }
 
-                <p>
+                <h3>
                     <a asp-action="CategoryArticles" asp-controller="Category" asp-route-categoryId="@item.CategoryId">@item.Name</a>
-                </p>
+                </h3>
             </div>
 
             <div class="panel-body">

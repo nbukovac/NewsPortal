@@ -109,6 +109,8 @@ namespace NewsPortal
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            RolesData.SeedRoles(app.ApplicationServices).Wait();
         }
     }
 }

@@ -7,17 +7,32 @@
 }
 
 <h1>@ViewBag.Title</h1>
+@{
+    var count = 0;
+}
 
 @foreach (var article in Model)
 {
     @Html.Partial("ArticleSnapshot", article)
-
+    count++;
 }
 
-<p class="row">
-    <pager setting-link-attr-data-ajax="true" 
-           item-default-link='PagerItemLinkGenerators.Custom((int page) => 
+@if (count > 0)
+{
+    <p class="row">
+        <pager setting-link-attr-data-ajax="true"
+               item-default-link='PagerItemLinkGenerators.Custom((int page) => 
             Url.Action("CategoryArticles", "Category", 
             new {page = page, categoryId = ViewBag.CategoryId, trending = ViewBag.Trending}))'
-            source="Model"/>
+               source="Model"/>
+    </p>
+}
+else
+{
+    <p class="alert alert-success">
+        There aren't any articles in this category!
+    </p>
+}
+<p>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-danger">Return to homepage</a>
 </p>
