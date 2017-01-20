@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
@@ -21,18 +17,17 @@ namespace NewsPortal
 {
     public class Startup
     {
-        private bool _isDevelopment;
+        private readonly bool _isDevelopment;
 
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+                .AddJsonFile("appsettings.json", true, true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true);
 
             if (env.IsDevelopment())
             {
-                // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
                 builder.AddUserSecrets();
             }
 
@@ -48,14 +43,14 @@ namespace NewsPortal
         {
             // Add framework services.
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
             services.AddTransient<ICommentRepository, CommentSqlRepository>();
-            services.AddTransient<ICategoryRepository,CategorySqlRepository>();
+            services.AddTransient<ICategoryRepository, CategorySqlRepository>();
             services.AddTransient<IArticleRepository, ArticleSqlRepository>();
             services.AddTransient<IArticleVoteRepository, ArticleVoteSqlRepository>();
             services.AddScoped(s => new NewsPortalDbContext(Configuration.GetConnectionString("DefaultConnection")));
@@ -66,14 +61,15 @@ namespace NewsPortal
                 options.ConfigureDefault();
             });
 
-            services.AddMvc(/*options =>
+            services.AddMvc(options =>
             {
                 if (_isDevelopment)
                 {
-                    options.SslPort = 44397;
+                    options.SslPort = 44393;
                 }
+
                 options.Filters.Add(new RequireHttpsAttribute());
-            }*/);
+            });
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
@@ -103,11 +99,17 @@ namespace NewsPortal
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 
+            app.UseFacebookAuthentication(new FacebookOptions
+            {
+                AppId = Configuration["Facebook:AppId"],
+                AppSecret = Configuration["Facebook:AppSecret"]
+            });
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    "default",
+                    "{controller=Home}/{action=Index}/{id?}");
             });
 
             RolesData.SeedRoles(app.ApplicationServices).Wait();
