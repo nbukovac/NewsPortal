@@ -112,7 +112,7 @@ namespace NewsPortal
                     "{controller=Home}/{action=Index}/{id?}");
             });
 
-            RolesData.SeedRoles(app.ApplicationServices).Wait();
+            //RolesData.SeedRoles(app.ApplicationServices).Wait();
         }
     }
 }

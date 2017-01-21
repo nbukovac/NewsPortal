@@ -4,12 +4,38 @@
 
 @{
     ViewBag.Title = ViewBag.CategoryName;
-}
-
-<h1>@ViewBag.Title</h1>
-@{
     var count = 0;
 }
+
+@if (ViewBag.Trending)
+{
+    <div class="row">
+        <h1>@ViewBag.Title trending articles</h1>
+        <hr/>
+
+        <a asp-controller="Category" asp-action="CategoryArticles" asp-route-categoryId="@ViewBag.CategoryId"
+           asp-route-trending="@false" class="btn btn-success">
+            Switch to newest articles
+            <span class="glyphicon glyphicon-random"></span>
+        </a>
+    </div>
+}
+else
+{
+    <div class="row">
+        <h1>@ViewBag.Title newest articles</h1>
+        <hr/>
+
+        <a asp-controller="Category" asp-action="CategoryArticles" asp-route-categoryId="@ViewBag.CategoryId"
+           asp-route-trending="@true" class="btn btn-success">
+            Switch to trending articles
+            <span class="glyphicon glyphicon-random"></span>
+        </a>
+    </div>
+}
+
+<br/>
+
 
 @foreach (var article in Model)
 {

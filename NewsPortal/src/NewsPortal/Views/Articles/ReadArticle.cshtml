@@ -25,6 +25,10 @@
     <br />
     <hr />
 }
+else
+{
+    <br />
+}
 
 
 <div class="row">
@@ -86,6 +90,7 @@
     @{
         var comments = Model.Comments.OrderBy(m => m.Date).ToList();
     }
+
     @foreach (var comment in comments)
     {
         @Html.Partial("Comment", comment)

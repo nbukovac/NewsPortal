@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NewsPortal.Interfaces;
 using NewsPortal.Models;
@@ -8,7 +9,8 @@ using NewsPortal.Models.ViewModels;
 using Sakura.AspNetCore;
 
 namespace NewsPortal.Controllers
-{
+{   
+    [Authorize]
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository _categoryRepository;
@@ -18,11 +20,13 @@ namespace NewsPortal.Controllers
             _categoryRepository = categoryRepository;
         }
 
+        [Authorize(Roles = Constants.AdministratorRole)]
         public IActionResult Create()
         {
             return View();
         }
 
+        [Authorize(Roles = Constants.AdministratorRole)]
         [HttpPost]
         public IActionResult Create(AddCategoryViewModel addCategoryViewModel)
         {
@@ -35,11 +39,13 @@ namespace NewsPortal.Controllers
             return View(addCategoryViewModel);
         }
 
+        [Authorize(Roles = Constants.AdministratorRole)]
         public IActionResult Edit(Guid id)
         {
             return View(_categoryRepository.GetById(id));
         }
 
+        [Authorize(Roles = Constants.AdministratorRole)]
         [HttpPost]
         public IActionResult Edit(Category category)
         {
@@ -52,12 +58,14 @@ namespace NewsPortal.Controllers
             return View(category);
         }
 
+        [Authorize(Roles = Constants.AdministratorRole)]
         public IActionResult Delete(Guid id)
         {
             _categoryRepository.Delete(id);
             return RedirectToAction("Index", "Home");
         }
 
+        [Authorize]
         public async Task<IActionResult> CategoryArticles(Guid categoryId, bool trending = true, int page = 1)
         {
             List<Article> articles;

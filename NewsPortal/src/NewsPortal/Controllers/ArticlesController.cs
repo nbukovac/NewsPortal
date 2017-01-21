@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,13 +10,16 @@ using NewsPortal.Models.ViewModels;
 
 namespace NewsPortal.Controllers
 {
+    [Authorize]
     public class ArticlesController : Controller
     {
         private readonly IArticleRepository _articleRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ICommentRepository _commentRepository;
-        private readonly IArticleVoteRepository _articleVoteRepository; 
+        private readonly IArticleVoteRepository _articleVoteRepository;
+
+        private const string ConcatenatedRoles = Constants.AdministratorRole + "," + Constants.AutorRole;
 
         public ArticlesController(IArticleRepository articleRepository, UserManager<ApplicationUser> userManager,
             ICategoryRepository categoryRepository, ICommentRepository commentRepository,
@@ -99,6 +103,7 @@ namespace NewsPortal.Controllers
             return RedirectToAction("ReadArticle", new {articleId = addCommentViewModel.ArticleId});
         }
 
+        [Authorize(Roles = ConcatenatedRoles)]
         public async Task<IActionResult> WriteArticle()
         {
             ViewBag.AutorId = await GetActiveUserId();
@@ -108,6 +113,7 @@ namespace NewsPortal.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = ConcatenatedRoles)]
         public async Task<IActionResult> WriteArticle(AddArticleViewModel addArticleViewModel)
         {
             if (ModelState.IsValid)
@@ -126,6 +132,7 @@ namespace NewsPortal.Controllers
             return View(addArticleViewModel);
         }
 
+        [Authorize(Roles = ConcatenatedRoles)]
         public async Task<IActionResult> EditArticle(Guid articleId)
         {
             var article = _articleRepository.GetById(articleId);
@@ -136,6 +143,7 @@ namespace NewsPortal.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = ConcatenatedRoles)]
         public async Task<IActionResult> EditArticle(Article article)
         {
             if (ModelState.IsValid)
@@ -150,10 +158,12 @@ namespace NewsPortal.Controllers
             return View(article);
         }
 
+        [Authorize(Roles = ConcatenatedRoles)]
         public IActionResult DeleteArticle(Guid articleid)
         {
+            var article = _articleRepository.GetById(articleid);
             _articleRepository.Delete(articleid);
-            return RedirectToAction("Index", "Category");
+            return RedirectToAction("CategoryArticles", "Category", new { categoryId = article.CategoryId});
         }
 
         private async Task<Guid> GetActiveUserId()

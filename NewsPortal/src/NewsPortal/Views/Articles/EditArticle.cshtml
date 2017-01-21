@@ -44,6 +44,9 @@
             </div>
         </div>
         
+        <input asp-for="ArticleId" class="hidden" value="@Model.ArticleId"/>
+        <input asp-for="UserId" class="hidden" value="@Model.UserId"/>
+        <input asp-for="Votes" class="hidden" value="@Model.Votes"/>
         <input asp-for="Date" value="@DateTime.Today" class="hidden"/>
         <input class="hidden" asp-for="UserId" value="@Model.UserId" />
     </div>
@@ -54,7 +57,7 @@
 
 </form>
 
-<a asp-action="Index" asp-controller="Category" class="btn btn-danger">Return</a>
+<a asp-action="Index" asp-controller="Home" class="btn btn-danger">Return</a>
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
