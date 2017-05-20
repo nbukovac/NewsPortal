@@ -6,7 +6,6 @@ nikolabukovacnews.azurewebsites.net
 
 Svi korisnici moraju biti ulogirani osim za početnu stranicu, ima Facebook login
 
-# Role
 # Admin
 - ima ovlasti dodavanja, brisanja i uređivanja kategorija,
 promoviranje običnog korisnika do razine Autor i sve što i Autor
